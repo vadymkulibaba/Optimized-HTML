@@ -16,8 +16,7 @@ gulp.task('sass', function () {
 	  return gulp.src('app/sass/**/*.sass')
 		  .pipe(sass().on('error', sass.logError))
       .pipe(autoprefixer(['last 15 versions']))
-    	.pipe(gulp.dest('app/css/'))
-   		.pipe(browserSync.reload({stream: true}));       
+    	.pipe(gulp.dest('app/css/'));  
 });
 
 
@@ -29,7 +28,8 @@ gulp.task('cssnano', ['sass'], function() {
         .pipe(rename(function (path) {
             path.basename += ".min"
   }))
-        .pipe(gulp.dest('app/css/'));
+        .pipe(gulp.dest('app/css/'))
+        .pipe(browserSync.reload({stream: true}));  
 });
 
 gulp.task('common-js', function () {
