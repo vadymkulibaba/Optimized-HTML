@@ -25,7 +25,6 @@ gulp.task('cssnano', ['sass'], function() {
     return gulp.src([
       'app/css/main.css'
       ])
-        .pipe(concat('main.all.css'))
         .pipe(cssnano())
         .pipe(rename(function (path) {
             path.basename += ".min"
@@ -63,7 +62,7 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('watch', ['cssnano', 'common-js', 'browser-sync'], function() {
-  gulp.watch('app/sass/**/*.sass', ['sass']);   
+  gulp.watch('app/sass/**/*.sass', ['cssnano']);   
   gulp.watch('app/js/**/*.js', ['js']);
   gulp.watch("app/*.html").on('change', browserSync.reload);
 });
