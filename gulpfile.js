@@ -16,7 +16,8 @@ gulp.task('sass', function () {
 	  return gulp.src('app/sass/**/*.sass')
 		  .pipe(sass().on('error', sass.logError))
       .pipe(autoprefixer(['last 15 versions']))
-    	.pipe(gulp.dest('app/css/'));  
+    	.pipe(gulp.dest('app/css/'))
+      .pipe(browserSync.reload({stream: true}));  
 });
 
 
@@ -28,8 +29,8 @@ gulp.task('cssnano', ['sass'], function() {
         .pipe(rename(function (path) {
             path.basename += ".min"
   }))
-        .pipe(gulp.dest('app/css/'))
-        .pipe(browserSync.reload({stream: true}));  
+        .pipe(gulp.dest('app/css/'));
+ 
 });
 
 gulp.task('common-js', function () {
@@ -62,7 +63,7 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('watch', ['cssnano', 'common-js', 'browser-sync'], function() {
-  gulp.watch('app/sass/**/*.sass', ['cssnano']);   
+  gulp.watch('app/sass/**/*.sass', ['css']);   
   gulp.watch('app/js/**/*.js', ['js']);
   gulp.watch("app/*.html").on('change', browserSync.reload);
 });
@@ -81,7 +82,7 @@ gulp.task('build', ['removedist', 'imagemin', 'cssnano', 'js'], function() {
     ]).pipe(gulp.dest('dist'));
 
   var buildCss = gulp.src([
-    'app/css/main.all.min.css',
+    'app/css/main.min.css',
     ]).pipe(gulp.dest('dist/css'));
 
   var buildJs = gulp.src([
